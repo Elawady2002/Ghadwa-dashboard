@@ -48,6 +48,7 @@ export interface MenuItem {
     orderCount?: number;
     reviewsList?: Review[];
     expiryDate?: string;
+    tags?: string[];
 }
 
 export interface CartItem extends MenuItem {

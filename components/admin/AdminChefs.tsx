@@ -59,7 +59,12 @@ export const AdminChefs: React.FC = () => {
 
     const toggleChefStatus = (id: number) => {
         const chef = chefs.find(c => c.id === id);
-        if (chef) mutations.updateChefMutation.mutate({ ...chef, isOpen: !chef.isOpen });
+        if (chef) {
+            // If currently false (Closed), set to true (Open). Otherwise close it.
+            // This handles undefined (default Open) correctly by setting it to false (Closed).
+            const newStatus = chef.isOpen === false ? true : false;
+            mutations.updateChefMutation.mutate({ ...chef, isOpen: newStatus });
+        }
     }
 
     return (

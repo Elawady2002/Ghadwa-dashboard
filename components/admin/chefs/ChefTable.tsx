@@ -61,8 +61,8 @@ export const ChefTable: React.FC<ChefTableProps> = ({ chefs, orders, onEdit, onD
                                     <p className="font-black text-primary text-lg">{stats.totalRevenue}</p>
                                 </div>
                             </div>
-                            <button onClick={() => onToggleStatus(chef.id)} className={`w-full py-3 rounded-xl font-black text-sm text-white transition-all shadow-md active:scale-95 ${chef.isOpen ? 'bg-red-500 hover:bg-red-600' : 'bg-green-500 hover:bg-green-600'}`}>
-                                {chef.isOpen ? 'إغلاق المطبخ 🔒' : 'فتح المطبخ 🔓'}
+                            <button onClick={() => onToggleStatus(chef.id)} className={`w-full py-3 rounded-xl font-black text-sm text-white transition-all shadow-md active:scale-95 ${chef.isOpen !== false ? 'bg-red-500 hover:bg-red-600' : 'bg-green-500 hover:bg-green-600'}`}>
+                                {chef.isOpen !== false ? 'إغلاق المطبخ 🔒' : 'فتح المطبخ 🔓'}
                             </button>
                         </div>
                     </div>

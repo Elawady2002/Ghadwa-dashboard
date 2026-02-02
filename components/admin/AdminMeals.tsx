@@ -21,13 +21,25 @@ export const AdminMeals: React.FC = () => {
     const [currentMeal, setCurrentMeal] = useState<MenuItem | null>(null);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const [mealToDelete, setMealToDelete] = useState<number | null>(null);
-    const [formData, setFormData] = useState<any>({ name: '', price: 0, description: '', image: '', rating: 5, reviews: 0, category: '', chefId: 0 });
+    const [formData, setFormData] = useState<any>({ name: '', price: 0, desc: '', image: '', rating: 5, reviews: 0, category: '', chefId: 0, categoryId: 0, tags: [] });
 
     if (isLoading) return <Loading />;
 
     const openAdd = () => {
         setCurrentMeal(null);
-        setFormData({ name: '', price: 0, description: '', image: '', rating: 5, reviews: 0, category: categories[0]?.name || '', chefId: chefs[0]?.id || 0 });
+        setFormData({
+            name: '',
+            price: 0,
+            desc: '',
+            image: '',
+            rating: 5,
+            reviews: 0,
+            category: categories[0]?.name || '',
+            categoryId: categories[0]?.id || 0,
+            chef: chefs[0]?.name || '',
+            chefId: chefs[0]?.id || 0,
+            tags: []
+        });
         setIsModalOpen(true);
     };
 
@@ -51,7 +63,13 @@ export const AdminMeals: React.FC = () => {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        const mealData = { ...formData, price: Number(formData.price), chefId: Number(formData.chefId) };
+        const mealData = {
+            ...formData,
+            price: Number(formData.price),
+            chefId: Number(formData.chefId),
+            categoryId: Number(formData.categoryId),
+            tags: formData.tags || []
+        };
         if (currentMeal) {
             mutations.updateMenuItemMutation.mutate({ ...currentMeal, ...mealData });
         } else {
