@@ -2,18 +2,24 @@
 import React from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { AdminSidebar } from '../components/admin/AdminSidebar';
+import { useAuth } from '../contexts/AuthContext';
 
 export const AdminLayout: React.FC = () => {
     const location = useLocation();
     const navigate = useNavigate();
+    const { logout } = useAuth();
 
     // Get current page name from path
     const path = location.pathname.split('/').pop() || 'dashboard';
     const activePage = `admin-${path}`;
 
-    const handleLogout = () => {
-        // Simple reload to reset state in this demo
-        window.location.href = '/';
+    const handleLogout = async () => {
+        try {
+            await logout();
+            navigate('/login');
+        } catch (error) {
+            console.error('Logout failed:', error);
+        }
     };
 
     return (

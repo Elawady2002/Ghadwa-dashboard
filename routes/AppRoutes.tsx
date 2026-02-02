@@ -3,9 +3,14 @@ import { Route, Navigate, Routes } from 'react-router-dom';
 import { useUIStore } from '../stores/useUIStore';
 import { useMutations } from '../hooks/useMutations'; // Needed for OrdersRoute
 import { Loading } from '../components/Loading';
+import { ProtectedRoute } from '../components/ProtectedRoute';
+import { useAuth } from '../contexts/AuthContext';
 
 // Layouts
 import { AdminLayout } from '../layouts/AdminLayout';
+
+// Pages
+import { AdminLogin } from '../pages/AdminLogin';
 
 // Lazy Load Pages for Performance
 const AdminDashboard = lazy(() => import('../components/admin/AdminDashboard').then(module => ({ default: module.AdminDashboard })));
@@ -38,14 +43,32 @@ const OrdersRoute = () => {
     );
 };
 
+// Root redirect component - redirects based on auth status
+const RootRedirect = () => {
+    const { user, loading } = useAuth();
+
+    if (loading) {
+        return <Loading />;
+    }
+
+    return <Navigate to={user ? "/admin/dashboard" : "/login"} replace />;
+};
+
 export const AppRoutes: React.FC = () => {
     return (
         <Suspense fallback={<Loading />}>
             <Routes>
-                <Route path="/" element={<Navigate to="/admin/dashboard" replace />} />
-                <Route path="/login" element={<Navigate to="/admin/dashboard" replace />} />
+                <Route path="/" element={<RootRedirect />} />
 
-                <Route path="/admin" element={<AdminLayout />}>
+                {/* Login Route */}
+                <Route path="/login" element={<AdminLogin />} />
+
+                {/* Protected Admin Routes */}
+                <Route path="/admin" element={
+                    <ProtectedRoute>
+                        <AdminLayout />
+                    </ProtectedRoute>
+                }>
                     <Route index element={<Navigate to="/admin/dashboard" replace />} />
 
                     <Route path="dashboard" element={<AdminDashboard />} />
