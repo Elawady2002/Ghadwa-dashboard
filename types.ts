@@ -42,6 +42,7 @@ export interface MenuItem {
     rating?: number;
     time?: string;
     desc?: string;
+    description?: string;
     oldPrice?: number;
     discount?: string;
     chefImg?: string;

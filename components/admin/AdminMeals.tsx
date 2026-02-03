@@ -31,9 +31,9 @@ export const AdminMeals: React.FC = () => {
             name: '',
             price: 0,
             desc: '',
-            image: '',
+            img: '',
             rating: 5,
-            reviews: 0,
+            time: '45 دقيقة',
             category: categories[0]?.name || '',
             categoryId: categories[0]?.id || 0,
             chef: chefs[0]?.name || '',
@@ -45,7 +45,13 @@ export const AdminMeals: React.FC = () => {
 
     const openEdit = (meal: MenuItem) => {
         setCurrentMeal(meal);
-        setFormData(meal);
+        setFormData({
+            ...meal,
+            desc: meal.desc || meal.description || '', // Handle description mapping
+            categoryId: categories.find(c => c.name === meal.category)?.id || 0,
+            chefId: chefs.find(c => c.name === meal.chef)?.id || 0,
+            tags: meal.tags || []
+        });
         setIsModalOpen(true);
     };
 
@@ -63,18 +69,24 @@ export const AdminMeals: React.FC = () => {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+
+        // Construct a clean object that matches Supabase schema exactly
         const mealData = {
-            ...formData,
+            name: formData.name,
             price: Number(formData.price),
-            chefId: Number(formData.chefId),
-            categoryId: Number(formData.categoryId),
-            tags: formData.tags || []
+            description: formData.desc, // Map desc form field to description column
+            category: formData.category,
+            chef: formData.chef,
+            img: formData.img,
+            rating: Number(formData.rating || 5),
+            time: formData.time,
+            // Note: We exclude tags, chefId, categoryId as they don't exist in menu_items table
         };
+
         if (currentMeal) {
             mutations.updateMenuItemMutation.mutate({ ...currentMeal, ...mealData });
         } else {
-            const { id, ...dataWithoutId } = mealData;
-            mutations.createMenuItemMutation.mutate(dataWithoutId);
+            mutations.createMenuItemMutation.mutate(mealData);
         }
         setIsModalOpen(false);
     };
