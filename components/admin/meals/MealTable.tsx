@@ -37,6 +37,7 @@ export const MealTable: React.FC<MealTableProps> = ({ meals, onEdit, onDelete })
                             </td>
                             <td className="p-5 text-sm text-gray-600 font-bold">شيف {meal.chef}</td>
                             <td className="p-5">
+                                <div className="flex flex-wrap gap-1">
                                     {meal.tags && meal.tags.includes('healthy') && (
                                         <span className="bg-green-100 text-green-600 px-2 py-0.5 rounded-md text-[9px] font-bold">هيلثي</span>
                                     )}
@@ -59,15 +60,15 @@ export const MealTable: React.FC<MealTableProps> = ({ meals, onEdit, onDelete })
                             </td>
                         </tr>
                     ))}
-            </tbody>
-        </table>
+                </tbody>
+            </table>
             {
-        meals.length === 0 && (
-            <div className="text-center py-20">
-                <p className="text-gray-400 font-bold">لا يوجد وجبات مضافة حتى الآن</p>
-            </div>
-        )
-    }
+                meals.length === 0 && (
+                    <div className="text-center py-20">
+                        <p className="text-gray-400 font-bold">لا يوجد وجبات مضافة حتى الآن</p>
+                    </div>
+                )
+            }
         </div >
     );
 };
