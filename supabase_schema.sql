@@ -50,6 +50,7 @@ CREATE TABLE IF NOT EXISTS menu_items (
     rating NUMERIC DEFAULT 5.0,
     time TEXT,
     order_count INTEGER DEFAULT 0,
+    tags TEXT[] DEFAULT '{}',
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
 

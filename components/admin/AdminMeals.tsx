@@ -80,7 +80,7 @@ export const AdminMeals: React.FC = () => {
             img: formData.img,
             rating: Number(formData.rating || 5),
             time: formData.time,
-            // Note: We exclude tags, chefId, categoryId as they don't exist in menu_items table
+            tags: formData.tags || []
         };
 
         if (currentMeal) {

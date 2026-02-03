@@ -18,6 +18,7 @@ export const MealTable: React.FC<MealTableProps> = ({ meals, onEdit, onDelete })
                         <th className="p-5">السعر</th>
                         <th className="p-5">القسم</th>
                         <th className="p-5">الشيف</th>
+                        <th className="p-5">التصنيفات</th>
                         <th className="p-5">إجراءات</th>
                     </tr>
                 </thead>
@@ -35,6 +36,16 @@ export const MealTable: React.FC<MealTableProps> = ({ meals, onEdit, onDelete })
                                 <span className="bg-gray-100 text-gray-500 px-3 py-1 rounded-lg text-[10px] font-black uppercase">{meal.category}</span>
                             </td>
                             <td className="p-5 text-sm text-gray-600 font-bold">شيف {meal.chef}</td>
+                            <td className="p-5">
+                                <div className="flex flex-wrap gap-1">
+                                    {meal.tags && meal.tags.includes('healthy') && (
+                                        <span className="bg-green-100 text-green-600 px-2 py-0.5 rounded-md text-[9px] font-bold">هيلثي</span>
+                                    )}
+                                    {meal.tags && meal.tags.includes('frozen') && (
+                                        <span className="bg-blue-100 text-blue-600 px-2 py-0.5 rounded-md text-[9px] font-bold">مجمدات</span>
+                                    )}
+                                </div>
+                            </td>
                             <td className="p-5 flex gap-2">
                                 <button onClick={() => onEdit(meal)} className="text-blue-500 bg-blue-50 w-9 h-9 rounded-xl hover:bg-blue-600 hover:text-white transition-all flex items-center justify-center shadow-sm"><i className="fa-solid fa-pen text-xs"></i></button>
                                 <button
